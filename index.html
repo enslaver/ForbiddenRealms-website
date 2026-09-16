@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Forbidden Realms</title>
+  <meta name="description" content="A souls-like action RPG. The seals are failing, the realm is unraveling from the east, and the only Guardian left is the one who ran.">
+  <meta name="theme-color" content="#1a1410">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Forbidden Realms">
+  <meta property="og:description" content="The seal is broken. The Veil remembers. A souls-like action RPG, in development for PC.">
+  <meta property="og:image" content="assets/img/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Forbidden Realms">
+  <meta name="twitter:description" content="The seal is broken. The Veil remembers. A souls-like action RPG, in development for PC.">
+  <meta name="twitter:image" content="assets/img/og-image.jpg">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicon-180.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Cormorant+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<a class="skip" href="#story">Skip to the story</a>
+
+<header class="top" id="top">
+  <a class="top__home" href="#top">
+    <img src="assets/img/emblem.png" alt="" width="30" height="36">
+    <span>Forbidden Realms</span>
+  </a>
+  <button class="top__toggle" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><span></span><span></span></button>
+  <nav class="top__nav" id="menu" aria-label="Sections">
+    <a href="#story">Story</a>
+    <a href="#road">The road</a>
+    <a href="#classes">Classes</a>
+    <a href="#play">Play</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#progress">Progress</a>
+    <a class="top__cta" href="#follow">Release news</a>
+  </nav>
+</header>
+
+<main>
+
+  <section class="hero" aria-labelledby="title">
+    <picture class="hero__bg">
+      <source media="(max-width: 720px)" srcset="assets/img/hero-bg-small.jpg">
+      <img src="assets/img/hero-bg.jpg" alt="" fetchpriority="high">
+    </picture>
+    <div class="hero__body">
+      <img class="hero__mark" src="assets/img/logo.png" alt="Forbidden Realms" width="630" height="445">
+      <h1 id="title" class="sr-only">Forbidden Realms</h1>
+      <p class="hero__line">The seal is broken. The Veil remembers.</p>
+      <span class="hero__note" aria-hidden="true"></span>
+      <p class="hero__about">A souls-like action RPG about the one Guardian who ran, and the realm that is unraveling because of it. In development for PC.</p>
+      <a class="button" href="#follow">Get release news</a>
+    </div>
+  </section>
+
+  <section class="ms" id="story" aria-labelledby="story-h">
+    <aside class="ms__margin">
+      <p>From the chapel record, Hearthholm. Author unknown.</p>
+    </aside>
+    <div class="ms__text">
+      <h2 id="story-h">Nobody knows what it is. Everyone can feel it.</h2>
+      <p class="first">Creatures go feral without cause. Crops rot in a single night. Far to the east the sky has turned a deep, wrong shade of purple, and every season it creeps a little closer.</p>
+      <p>They call it the Unraveling. The old prayers name the thing behind it the Veilborn: a formless hunger that moves through corruption and possession, wearing the bodies of the fallen. Knights, mages, heroes. It prefers the ones who were good once.</p>
+      <p>You arrive in Hearthholm from across the Sea of Glass, a stranger with a Guardian's bearing and nothing to say about where you came from. The town needs help. The road east needs walking. And the fallen heroes waiting at the end of it seem, somehow, to know your name.</p>
+
+      <figure class="fragment">
+        <blockquote>
+          <p>You opened it once, brother. Do you remember the sound?</p>
+        </blockquote>
+        <figcaption>Spoken by a fallen Guardian, moments before the fight. Recovered fragment, provenance unclear.</figcaption>
+      </figure>
+
+      <p>The story is not told to you. It is recovered, piece by piece, from lore, from memory, and from the people who knew you before you fled. The order that once held the seals is gone; what is left of it waits for you one Guardian at a time, each consumed by the Veil, each carrying a piece of what happened. Solve it early and you may find you were wrong about which sin it was.</p>
+    </div>
+  </section>
+
+  <section class="road-section" id="road" aria-labelledby="road-h">
+    <div class="road-section__head">
+      <h2 id="road-h">The road runs east, and so does the rot.</h2>
+      <p>Seven regions curled around the Sea of Glass, walked border to border. Hearthholm in the west still knows sunlight. The Veil's Edge no longer knows what sunlight is.</p>
+    </div>
+
+    <ol class="road" aria-label="Regions, west to east">
+      <li class="road__stop is-active">
+        <button type="button" aria-expanded="true" aria-controls="stop-1" id="stop-1-btn">Hearthholm</button>
+        <div class="road__text" id="stop-1" role="region" aria-labelledby="stop-1-btn">
+          <p>The hometown hub. Warm, safe, and cracking at the edges. A market, a forge, the Broken Antler tavern, a chapel that knows more than it says, and a gate that opens onto everything else.</p>
+        </div>
+      </li>
+      <li class="road__stop">
+        <button type="button" aria-expanded="false" aria-controls="stop-2" id="stop-2-btn">The Ashwood</button>
+        <div class="road__text" id="stop-2" role="region" aria-labelledby="stop-2-btn" hidden>
+          <p>A dark, corrupted forest and the first true zone. The trees remember what burned.</p>
+        </div>
+      </li>
+      <li class="road__stop">
+        <button type="button" aria-expanded="false" aria-controls="stop-3" id="stop-3-btn">Ironhold Peaks</button>
+        <div class="road__text" id="stop-3" role="region" aria-labelledby="stop-3-btn" hidden>
+          <p>Mountain fortresses and what remains of the Guardian order. The Vault of Oaths is up there somewhere, and so is something that was never a Guardian at all.</p>
+        </div>
+      </li>
+      <li class="road__stop">
+        <button type="button" aria-expanded="false" aria-controls="stop-4" id="stop-4-btn">The Sunken Sanctum</button>
+        <div class="road__text" id="stop-4" role="region" aria-labelledby="stop-4-btn" hidden>
+          <p>An underground seal site beneath the forest. Water, stone, candle wax, and things that should have stayed bound. This is where the current build lives.</p>
+        </div>
+      </li>
+      <li class="road__stop">
+        <button type="button" aria-expanded="false" aria-controls="stop-5" id="stop-5-btn">The Blighted Flats</button>
+        <div class="road__text" id="stop-5" role="region" aria-labelledby="stop-5-btn" hidden>
+          <p>A wasteland crossed by the Bone Road. The turning point of the whole story waits on the far side.</p>
+        </div>
+      </li>
+      <li class="road__stop">
+        <button type="button" aria-expanded="false" aria-controls="stop-6" id="stop-6-btn">Ashenveil Ruins</button>
+        <div class="road__text" id="stop-6" role="region" aria-labelledby="stop-6-btn" hidden>
+          <p>A village that no longer exists, across the water you swore you would never cross again.</p>
+        </div>
+      </li>
+      <li class="road__stop road__stop--veil">
+        <button type="button" aria-expanded="false" aria-controls="stop-7" id="stop-7-btn">The Veil's Edge</button>
+        <div class="road__text" id="stop-7" role="region" aria-labelledby="stop-7-btn" hidden>
+          <p>Reality is coming apart here. The last seal is at the center of it, and so is the truth.</p>
+        </div>
+      </li>
+    </ol>
+
+    <p class="road-section__foot">Guardian Watchfires mark the road: old signal braziers you relight to rest, level, attune spells, and travel. Lighting one plays a single held note. You will hear that note again. Off the road, a dragon, a giant, and a leviathan each guard a place you are not required to go.</p>
+  </section>
+
+  <section class="classes" id="classes" aria-labelledby="classes-h">
+    <div class="classes__head">
+      <h2 id="classes-h">One oath, broken four ways.</h2>
+      <p>Every class starts at level five with the same points spent in a different shape. You can respec, but it returns you to your class floor, so the shape you choose is a real commitment.</p>
+    </div>
+    <div class="classes__grid">
+      <article>
+        <video class="classes__loop classes__loop--onblack" muted loop playsinline preload="none" poster="assets/video/sentinel.jpg" aria-hidden="true" tabindex="-1">
+          <source data-src="assets/video/sentinel.webm" type="video/webm">
+          <source data-src="assets/video/sentinel.mp4" type="video/mp4">
+        </video>
+        <h3>Sentinel</h3>
+        <p class="classes__style">Sword and shield. Balanced. Start here.</p>
+        <p>A disgraced Guardian of the shield-line, fighting to reclaim an honor nobody else remembers.</p>
+        <p class="classes__kit">Shield Wall blocks and reflects. Ground Slam staggers everything nearby.</p>
+      </article>
+      <article>
+        <video class="classes__loop classes__loop--onblack" muted loop playsinline preload="none" poster="assets/video/hexblade.jpg" aria-hidden="true" tabindex="-1">
+          <source data-src="assets/video/hexblade.webm" type="video/webm">
+          <source data-src="assets/video/hexblade.mp4" type="video/mp4">
+        </video>
+        <h3>Hexblade</h3>
+        <p class="classes__style">Sword and dark magic, hybrid.</p>
+        <p>Touched by the Veil and turning its power back against it. A Hexblade with no mana is still a Hexblade.</p>
+        <p class="classes__kit">Veil Step is a short teleport dodge. Cursed Strike hits and leaves something behind.</p>
+      </article>
+      <article>
+        <video class="classes__loop classes__loop--onblack" muted loop playsinline preload="none" poster="assets/video/ironsworn.jpg" aria-hidden="true" tabindex="-1">
+          <source data-src="assets/video/ironsworn.webm" type="video/webm">
+          <source data-src="assets/video/ironsworn.mp4" type="video/mp4">
+        </video>
+        <h3>Ironsworn</h3>
+        <p class="classes__style">Two-handed hammer. Slow, punishing, highest poise.</p>
+        <p>Oathbound siege-guard of Ironhold. Served the Guardians without ever being one.</p>
+        <p class="classes__kit">Unbroken Line plants you and cannot be staggered. Gatebreaker breaks any guard.</p>
+      </article>
+      <article>
+        <video class="classes__loop classes__loop--onblack" muted loop playsinline preload="none" poster="assets/video/sage.jpg" aria-hidden="true" tabindex="-1">
+          <source data-src="assets/video/sage.webm" type="video/webm">
+          <source data-src="assets/video/sage.mp4" type="video/mp4">
+        </video>
+        <h3>Sage</h3>
+        <p class="classes__style">Fragile, high-damage caster.</p>
+        <p>A scholar who decoded the Veil's language and wishes, most days, that they hadn't.</p>
+        <p class="classes__kit">Arcane Barrier absorbs one hit. Chain Hex bounces between targets.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="ms" id="play" aria-labelledby="play-h">
+    <aside class="ms__margin">
+      <p>Real time. No pause. Every decision made in the moment.</p>
+    </aside>
+    <div class="ms__text">
+      <h2 id="play-h">How it plays</h2>
+      <p>Combat is precise and unforgiving in the way the genre demands. Parry windows are tight. The dodge roll is free and carries real invulnerability frames. Poise decides who staggers. Stamina is spent on blocks and braces, never on getting out of the way.</p>
+      <p>Kills yield Embers, carried unbanked until you reach a Watchfire and spend them to level. Die and you drop every Ember where you fell. Die again before you get back and they are gone for good.</p>
+      <p>Fifty spells across two schools sit in attunement slots that grow with the story. Class abilities are separate: always available, never lost. And Hearthholm's people keep their own timelines. Their windows close diegetically, not on a clock. An empty wagon yard is how you find out.</p>
+    </div>
+  </section>
+
+  <section class="gallery" id="gallery" aria-labelledby="gallery-h">
+    <h2 id="gallery-h" class="sr-only">Gallery</h2>
+    <a class="gallery__item gallery__item--a" href="assets/img/gallery/dragon-hall.jpg" data-caption="The sealed gate, Sunken Sanctum">
+      <img src="assets/img/gallery/dragon-hall-thumb.jpg" alt="A knight before a vast gate flanked by two stone dragons, blue braziers burning on either side" loading="lazy" width="800" height="450">
+    </a>
+    <a class="gallery__item gallery__item--b" href="assets/img/gallery/altar.jpg" data-caption="A Guardian's rest">
+      <img src="assets/img/gallery/altar-thumb.jpg" alt="A knight kneels at a candle-lit shrine between twisted stone pillars" loading="lazy" width="800" height="450">
+    </a>
+    <a class="gallery__item gallery__item--c" href="assets/img/gallery/rune-chamber.jpg" data-caption="The rune chamber">
+      <img src="assets/img/gallery/rune-chamber-thumb.jpg" alt="A ritual chamber lit violet from above, sigils glowing on stone pedestals" loading="lazy" width="800" height="450">
+    </a>
+    <a class="gallery__item gallery__item--d" href="assets/img/gallery/sealed-door.jpg" data-caption="The door beneath the sigil">
+      <img src="assets/img/gallery/sealed-door-thumb.jpg" alt="A knight approaches a wooden door beneath a gilded sigil in a cobwebbed chamber" loading="lazy" width="800" height="450">
+    </a>
+    <a class="gallery__item gallery__item--e" href="assets/img/gallery/cavern.jpg" data-caption="Below the Sanctum">
+      <img src="assets/img/gallery/cavern-thumb.jpg" alt="A lone knight in a dark cavern lit by a distant chandelier" loading="lazy" width="800" height="450">
+    </a>
+    <p class="gallery__note">Captured from the current pre-alpha build. Everything is subject to change.</p>
+  </section>
+
+  <section class="ms" id="progress" aria-labelledby="progress-h">
+    <aside class="ms__margin">
+      <p>Built in Unreal Engine 5 by a very small team.</p>
+    </aside>
+    <div class="ms__text">
+      <h2 id="progress-h">Where things stand</h2>
+      <p>The focus right now is the first dungeon, the catacombs under the Sunken Sanctum, and making the core combat loop feel right before anything else is built on top of it.</p>
+      <dl class="log">
+        <dt><time datetime="2026-09">September 2026</time></dt>
+        <dd>First playable slice of the Sanctum, the full class kit, and the first real human playtest. It found a lot. That is what it is for.</dd>
+        <dt><time datetime="2026-08">August 2026</time></dt>
+        <dd>Seven regions, the Watchfire system, the Ember death loop, and the four launch classes settled into their final shape.</dd>
+        <dt>Before that</dt>
+        <dd>Camera, lock-on, inventory, dialogue, and the story bible. The part nobody sees and everything sits on.</dd>
+      </dl>
+    </div>
+  </section>
+
+  <section class="follow" id="follow" aria-labelledby="follow-h">
+    <img class="follow__mark" src="assets/img/emblem.png" alt="" width="72" height="86">
+    <h2 id="follow-h">Hear the note when it plays.</h2>
+    <p>One email when there is something worth seeing: a trailer, a playable build, a release date. Nothing else.</p>
+    <form class="follow__form" id="follow-form" novalidate>
+      <label class="sr-only" for="email">Email address</label>
+      <input id="email" type="email" name="email" placeholder="you@example.com" autocomplete="email" required>
+      <button class="button" type="submit">Notify me</button>
+      <p class="follow__msg" role="status" aria-live="polite"></p>
+    </form>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <p>Forbidden Realms, 2026. Screenshots are from a pre-alpha build and do not represent the final game. Unreal and its logo are Epic Games' trademarks or registered trademarks in the US and elsewhere.</p>
+  <nav aria-label="Footer"><a href="press.html">Press kit</a><a href="#top">Top</a></nav>
+</footer>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Screenshot" hidden>
+  <button class="lightbox__close" aria-label="Close">&times;</button>
+  <button class="lightbox__prev" aria-label="Previous">&#8249;</button>
+  <figure>
+    <img class="lightbox__img" src="" alt="">
+    <figcaption class="lightbox__cap"></figcaption>
+  </figure>
+  <button class="lightbox__next" aria-label="Next">&#8250;</button>
+</div>
+
+<script src="assets/js/main.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+# Netlify config — static site, no build step.
+[build]
+  publish = "."
+
+# Send www to the apex over https
+[[redirects]]
+  from = "https://www.forbidden-realms.com/*"
+  to = "https://forbidden-realms.com/:splat"
+  status = 301
+  force = true
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
