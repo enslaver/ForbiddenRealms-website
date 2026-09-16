@@ -85,5 +85,5 @@ The encoder finds the cleanest loop point, crops to the figure, crushes blacks, 
 - Screenshots are 2026-09-14 PIE captures of `UC_Catacomb` from `.kilo/captures/1213-qa-texstreaming-flip-verify/` plus one sanctum-arch capture from `0834-clue-chain`. Mild gamma lift applied to the darkest three.
 - Copy is drawn from `STORY.md` / `WORLDDESIGN.md` and deliberately stops short of the Act 3 reveal.
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/ff4f2bb0-b5c3-48a7-b36b-8db298236a7e/deploy-status)](https://app.netlify.com/projects/forbidden-realms/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/ff4f2bb0-b5c3-48a7-b36b-8db298236a7e/deploy-status?branch=dev)](https://app.netlify.com/projects/forbidden-realms/deploys)
 
