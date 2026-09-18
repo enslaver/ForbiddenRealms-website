@@ -226,9 +226,28 @@ html:not(.js) .road__text[hidden] { display: block; }
   pointer-events: none;
 }
 .classes__loop--onblack { mix-blend-mode: screen; }
+/* Reduced motion: drop the video and show the loop's own transparent poster frame instead, so
+   these users still get the character art rather than an empty column. The poster PNGs carry a
+   real alpha channel, so no blend mode is needed (the old background-blend-mode: screen was for
+   the on-black era). Kept in sync with the poster= attributes in index.html. */
 @media (prefers-reduced-motion: reduce) {
   .classes__loop { display: none; }
-  .classes__grid article { background-repeat: no-repeat; background-position: right bottom; background-size: auto 88%; background-blend-mode: screen; }
+  .classes__grid article {
+    background-repeat: no-repeat; background-position: right bottom; background-size: auto 88%;
+    opacity: 1;
+  }
+  .classes__grid article::before {
+    content: ""; position: absolute; right: -6%; bottom: -4%; width: 78%; height: 88%; z-index: 0;
+    background-repeat: no-repeat; background-position: right bottom; background-size: contain;
+    opacity: 0.26; filter: saturate(0.45) contrast(1.05);
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 78%, transparent 100%);
+    mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 78%, transparent 100%);
+    pointer-events: none;
+  }
+  .classes__grid article:nth-child(1)::before { background-image: url("../video/sentinel.png"); }
+  .classes__grid article:nth-child(2)::before { background-image: url("../video/hexblade.png"); }
+  .classes__grid article:nth-child(3)::before { background-image: url("../video/ironsworn.png"); }
+  .classes__grid article:nth-child(4)::before { background-image: url("../video/sage.png"); }
 }
 .classes__grid article:last-child { border-right: 0; margin-right: 0; }
 .classes__grid h3 { margin-bottom: 0.2em; }

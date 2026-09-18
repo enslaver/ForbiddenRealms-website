@@ -70,7 +70,9 @@ def encode(name, frames, fps, box, alpha_dir=None, start=0):
     tmp = os.path.join("/tmp", "fr_loop_" + name)
     os.makedirs(tmp, exist_ok=True)
     for f in os.listdir(tmp):
-        os.remove(os.path.join(tmp, f))
+        p = os.path.join(tmp, f)
+        if os.path.isfile(p):        # the alpha/ subdir lives here too; it cleans itself below
+            os.remove(p)
     for i, fr in enumerate(frames):
         fr.crop(box).save(os.path.join(tmp, "l_%03d.png" % i))
     seq = os.path.join(tmp, "l_%03d.png")
@@ -79,12 +81,36 @@ def encode(name, frames, fps, box, alpha_dir=None, start=0):
     low = name.lower()
     if alpha_dir:
         # Alpha matte: EXR alpha is inverse opacity, so negate it, then merge onto the LDR color.
-        aseq = os.path.join(alpha_dir, "a_%03d.exr")
-        fc = ("[1:v]%s,format=gbrapf32le,extractplanes=a,negate,format=gray[a];"
-              "[0:v][a]alphamerge,format=yuva420p[v]") % crop
+        #
+        # The EXR alpha is extracted one frame at a time to 8-bit gray PNGs, with ffmpeg doing
+        # nothing but the decode (`-pix_fmt rgba`) and PIL doing the channel work.
+        #
+        # Two separate ffmpeg >= 9 failures forced this, and both look like script bugs rather
+        # than ffmpeg bugs, so they are worth naming:
+        #   * filtering the .exr inline (`format=gbrapf32le,extractplanes=a,...`) dies with
+        #     "Impossible to convert between the formats supported by the filter
+        #     'auto_premultiply_dynamic' and the filter 'auto_scale'" — these EXRs decode as
+        #     gbrapf16le and the auto-inserted premultiply filter cannot reach gbrapf32le.
+        #   * doing the same extractplanes in its own pass **SIGSEGVs** ffmpeg outright.
+        # Decoding straight to RGBA avoids every float-format negotiation and is fast enough.
+        adir = os.path.join(tmp, "alpha")
+        os.makedirs(adir, exist_ok=True)
+        for f in os.listdir(adir):
+            os.remove(os.path.join(adir, f))
+        rgba = os.path.join(tmp, "_a_rgba.png")
+        for i in range(len(frames)):
+            src = os.path.join(alpha_dir, "a_%03d.exr" % (start + i))
+            subprocess.check_call(["ffmpeg", "-y", "-loglevel", "error",
+                                   "-i", src, "-pix_fmt", "rgba", rgba])
+            # EXR alpha here is INVERSE opacity: background 255, character 0. Invert it.
+            a = Image.open(rgba).split()[-1].point(lambda v: 255 - v)
+            a.crop(box).save(os.path.join(adir, "m_%03d.png" % i))
+        os.remove(rgba)
+        aseq = os.path.join(adir, "m_%03d.png")
+        fc = "[0:v][1:v]alphamerge,format=yuva420p[v]"
         base = ["ffmpeg", "-y", "-loglevel", "error",
                 "-framerate", str(fps), "-i", seq,
-                "-framerate", str(fps), "-start_number", str(start), "-i", aseq,
+                "-framerate", str(fps), "-i", aseq,
                 "-frames:v", str(len(frames)), "-filter_complex", fc, "-map", "[v]", "-an"]
         subprocess.check_call(base + ["-c:v", "libvpx-vp9", "-b:v", "0", "-crf", "34", "-row-mt", "1",
                                       "-pix_fmt", "yuva420p", os.path.join(OUT, low + ".webm")])
@@ -93,7 +119,7 @@ def encode(name, frames, fps, box, alpha_dir=None, start=0):
                                       "-movflags", "+faststart", os.path.join(OUT, low + ".mp4")])
         subprocess.check_call(["ffmpeg", "-y", "-loglevel", "error",
                                "-i", os.path.join(tmp, "l_000.png"),
-                               "-i", aseq.replace("%03d", "%03d" % start),
+                               "-i", os.path.join(adir, "m_000.png"),
                                "-filter_complex", fc.replace("format=yuva420p", "format=rgba"),
                                "-map", "[v]", "-frames:v", "1", os.path.join(OUT, low + ".png")])
         return
