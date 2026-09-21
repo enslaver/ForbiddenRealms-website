@@ -13,6 +13,7 @@ Steps per class:
      alpha + HEVC-with-alpha mp4 + PNG poster, all truly transparent. Without: opaque VP9/H.264
      on black, which the site screen-blends away.
 """
+import datetime
 import json
 import os
 import subprocess
@@ -60,6 +61,38 @@ def bbox(frames):
     x1 -= (x1 - x0) % 2
     y1 -= (y1 - y0) % 2
     return x0, y0, x1, y1
+
+
+def pick_poster(adir, n):
+    """Choose the poster frame from the alpha mattes: the biggest hero that still has a head.
+
+    Frame 0 of the loop is NOT a safe poster. These are attack animations, and the loop start
+    is chosen for a clean seam, not for a readable pose -- Sage's loop begins at frame 96 of
+    the AOE cast, where he is leaning back far enough that his head is above the top of frame.
+    Shipping that gave the class column a headless robe, which is exactly the defect the
+    "no headless pawns on the website" rule exists to stop, and it shipped silently because
+    nothing in this script ever looked at the pose.
+
+    So: reject any frame whose character pixels touch the top edge (head clipped), then take
+    the one with the most character pixels (the most open, most readable pose). Falls back to
+    frame 0 only if every frame is clipped, which would itself be a capture-framing bug.
+    """
+    best, best_area, clipped = 0, -1, 0
+    for i in range(n):
+        a = np.asarray(Image.open(os.path.join(adir, "m_%03d.png" % i)).convert("L"))
+        on = a > 32
+        if on[:2, :].any():          # touching the top two rows = head cut off
+            clipped += 1
+            continue
+        area = int(on.sum())
+        if area > best_area:
+            best, best_area = i, area
+    if best_area < 0:
+        print("   ! every frame clips the top of frame -- poster falls back to 0")
+        return 0
+    if clipped:
+        print("   poster: frame %d (%d of %d frames rejected as head-clipped)" % (best, clipped, n))
+    return best
 
 
 def encode(name, frames, fps, box, alpha_dir=None, start=0):
@@ -117,12 +150,13 @@ def encode(name, frames, fps, box, alpha_dir=None, start=0):
         subprocess.check_call(base + ["-c:v", "hevc_videotoolbox", "-alpha_quality", "0.8",
                                       "-q:v", "55", "-tag:v", "hvc1", "-pix_fmt", "bgra",
                                       "-movflags", "+faststart", os.path.join(OUT, low + ".mp4")])
+        pi = pick_poster(adir, len(frames))
         subprocess.check_call(["ffmpeg", "-y", "-loglevel", "error",
-                               "-i", os.path.join(tmp, "l_000.png"),
-                               "-i", os.path.join(adir, "m_000.png"),
+                               "-i", os.path.join(tmp, "l_%03d.png" % pi),
+                               "-i", os.path.join(adir, "m_%03d.png" % pi),
                                "-filter_complex", fc.replace("format=yuva420p", "format=rgba"),
                                "-map", "[v]", "-frames:v", "1", os.path.join(OUT, low + ".png")])
-        return
+        return pi
     # Opaque path: crush near-black to true black so screen-blending on the site is clean.
     lut = [0 if v < 16 else int((v - 16) * 255 / 239) for v in range(256)] * 3
     frames[0].crop(box).point(lut).save(os.path.join(OUT, low + ".jpg"), quality=82)
@@ -133,6 +167,29 @@ def encode(name, frames, fps, box, alpha_dir=None, start=0):
     subprocess.check_call(base + ["-c:v", "libx264", "-crf", "26", "-preset", "slow", "-profile:v", "main",
                                   "-pix_fmt", "yuv420p", "-movflags", "+faststart", "-an",
                                   os.path.join(OUT, low + ".mp4")])
+
+
+def stamp(name, d, frames, fps, seam, box, out):
+    """Record WHICH capture produced the shipped video, next to the video.
+
+    Promised to Josh after he asked "How is it done when i havent seen the final images?" --
+    the failure that question was about is an encode silently running on a stale capture dir
+    and the site looking updated when it is not. The source frame's mtime is the thing that
+    actually distinguishes one capture run from the next, so it is what gets recorded.
+    """
+    src = os.path.join(d, "f_000.png")
+    meta = {
+        "class": name,
+        "capture_dir": d,
+        "source_frame_mtime": datetime.datetime.fromtimestamp(
+            os.path.getmtime(src)).isoformat(timespec="seconds"),
+        "encoded_at": datetime.datetime.now().isoformat(timespec="seconds"),
+        "frames": len(frames), "fps": fps, "loop_seam": round(float(seam), 3),
+        "crop": [int(v) for v in box],   # bbox() returns numpy int64, which json refuses
+    }
+    with open(os.path.join(out, name.lower() + ".json"), "w") as fh:
+        json.dump(meta, fh, indent=1)
+    return meta
 
 
 def main():
@@ -149,8 +206,13 @@ def main():
         loop = frames[s:s + p]
         box = bbox(loop)
         has_alpha = os.path.exists(os.path.join(d, "a_000.exr"))
-        encode(name, loop, fps, box, alpha_dir=d if has_alpha else None, start=s)
-        print("%-9s frames=%d fps=%d loop=[%d:%d] seam=%.2f crop=%s" % (name, len(frames), fps, s, s + p, seam, box))
+        pi = encode(name, loop, fps, box, alpha_dir=d if has_alpha else None, start=s)
+        m = stamp(name, d, loop, fps, seam, box, OUT)
+        m["poster_frame"] = None if pi is None else int(s + pi)
+        with open(os.path.join(OUT, name.lower() + ".json"), "w") as fh:
+            json.dump(m, fh, indent=1)
+        print("%-9s frames=%d fps=%d loop=[%d:%d] seam=%.2f crop=%s  src=%s" % (
+            name, len(frames), fps, s, s + p, seam, box, m["source_frame_mtime"]))
 
 
 if __name__ == "__main__":

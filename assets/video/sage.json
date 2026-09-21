@@ -1,0 +1,19 @@
+{
+ "class": "Sage",
+ "capture_dir": "/Volumes/R2D2/Projects/ForbiddenRealms/Saved/L1277/full",
+ "source_frame_mtime": "2026-09-20T21:12:38",
+ "encoded_at": "2026-09-20T21:14:13",
+ "frames": 140,
+ "fps": 24,
+ "loop_seam": 0.0,
+ "crop": [
+  0,
+  0,
+  810,
+  1080
+ ],
+ "poster_frame": 0,
+ "renderer": "MRQ Scripts (Saved/L1277/rig1277.py) 1200x1600 alpha -> 810x1080",
+ "motion": "AS_SLF_2h_Pose_R + camera sway",
+ "todo": "1277"
+}
